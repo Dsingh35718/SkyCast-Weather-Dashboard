@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a1932" />
+  <meta name="description" content="SkyCast: A responsive, live weather dashboard with global city search, hourly outlook, seven-day forecasts, and Celsius/Fahrenheit controls." />
+  <title>SkyCast — A brighter way to check the weather</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="app.js"></script>
+</head>
+<body data-theme="dark">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="SkyCast home"><span class="brand-mark" aria-hidden="true">☁</span><span>skycast<span class="brand-dot">.</span></span></a>
+      <div class="top-actions">
+        <span class="live-pill"><span class="live-indicator"></span> LIVE FORECAST</span>
+        <button id="theme-toggle" class="circle-button" aria-label="Switch color theme" title="Toggle light and dark mode">☀</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-heading">
+        <div class="eyebrow"><span class="eyebrow-line"></span> EVERY DAY LOOKS BRIGHTER WITH A PLAN</div>
+        <h1 id="page-heading">Know the sky.<br /><em>Own your day.</em></h1>
+        <p>Your next adventure starts with the forecast. Find the weather wherever life takes you.</p>
+      </section>
+
+      <section class="search-area" aria-label="Find a city">
+        <form id="city-form" class="search-form" autocomplete="off">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <label for="city-input" class="sr-only">Search city or postal code</label>
+          <input id="city-input" type="search" placeholder="Search for a city..." spellcheck="false" minlength="2" maxlength="100" required />
+          <button id="search-button" type="submit" class="primary-button">Search <span aria-hidden="true">↗</span></button>
+        </form>
+        <div id="search-results" class="search-results" aria-label="Matching cities" hidden></div>
+        <div class="quick-locations" aria-label="Popular cities"><span>EXPLORE</span><button type="button" data-city="New York">New York</button><button type="button" data-city="London">London</button><button type="button" data-city="Tokyo">Tokyo</button><button type="button" data-city="New Delhi">New Delhi</button></div>
+      </section>
+
+      <p id="status" class="status" role="status" aria-live="polite">Fetching the latest forecast…</p>
+
+      <div id="dashboard" class="dashboard" hidden>
+        <section class="hero-card" id="hero-card" aria-labelledby="location-name">
+          <div class="hero-top">
+            <div><p class="section-kicker">CURRENT CONDITIONS <span class="dot-separator">·</span> <span id="local-time">LOCAL TIME</span></p><h2 id="location-name">New York</h2><p id="location-subtitle" class="hero-location-subtitle">New York, United States</p></div>
+            <button id="refresh" class="refresh-button" type="button" aria-label="Refresh forecast" title="Refresh forecast">↻ <span>Refresh</span></button>
+          </div>
+          <div class="hero-center"><div><div id="current-temp" class="temperature">—</div><div id="current-condition" class="current-condition">Checking the skies...</div><div id="feels-like" class="feels-like">Feels like —</div></div><div id="weather-art" class="weather-art" aria-hidden="true">⛅</div></div>
+          <div class="hero-bottom"><div class="high-low"><span>↑ <strong id="high-temp">—</strong> HIGH</span><span>↓ <strong id="low-temp">—</strong> LOW</span></div><span id="updated-at">Updated with live weather data</span></div>
+        </section>
+
+        <section class="details-card" aria-labelledby="details-heading"><div class="card-heading"><div><span class="section-kicker">OUTSIDE, RIGHT NOW</span><h2 id="details-heading">The details</h2></div><span class="heading-decoration" aria-hidden="true">↗</span></div><div class="metrics">
+          <div class="metric"><div class="metric-top"><span class="metric-icon">💧</span><span>HUMIDITY</span></div><strong id="humidity">—</strong><small>Relative humidity</small></div>
+          <div class="metric"><div class="metric-top"><span class="metric-icon">🍃</span><span>WIND</span></div><strong id="wind">—</strong><small>At 10 meters</small></div>
+          <div class="metric"><div class="metric-top"><span class="metric-icon">☁️</span><span>CLOUD COVER</span></div><strong id="cloud-cover">—</strong><small>Across the sky</small></div>
+          <div class="metric"><div class="metric-top"><span class="metric-icon">☂️</span><span>RAIN TODAY</span></div><strong id="rain-chance">—</strong><small>Peak probability</small></div>
+        </div></section>
+
+        <section class="hourly-card" aria-labelledby="hourly-heading"><div class="section-heading"><div><span class="section-kicker">PLAN THE NEXT FEW HOURS</span><h2 id="hourly-heading">Hourly outlook</h2></div><div class="unit-switch" role="group" aria-label="Temperature unit"><button class="unit-button is-active" data-unit="C" type="button" aria-pressed="true">°C</button><button class="unit-button" data-unit="F" type="button" aria-pressed="false">°F</button></div></div><div id="hourly-list" class="hourly-list" aria-label="Hourly weather"></div></section>
+
+        <section class="week-card" aria-labelledby="week-heading"><div class="section-heading"><div><span class="section-kicker">LOOK A LITTLE FURTHER</span><h2 id="week-heading">The next 7 days</h2></div><span class="forecast-label">7-DAY FORECAST</span></div><div id="daily-list" class="daily-list" aria-label="Daily forecast"></div></section>
+      </div>
+    </main>
+    <footer class="footer"><span>© <span id="copyright-year">2026</span> SkyCast · Designed & built by <a href="https://github.com/Dsingh35718">Darshdeep Singh</a></span><span>Weather & location data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a></span></footer>
+  </div>
+</body>
+</html>
